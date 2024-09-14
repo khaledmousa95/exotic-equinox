@@ -1,16 +1,157 @@
 ---
+import ProductCard from '../components/ProductCard.astro';
+import ProductInfo from '../components/ProductInfo.astro';
+import CartButton from '../components/CartButton.astro';
 
+const pageTitle = "E-com Assignment";
+const productInfo = "This is detailed information about the selected product.";
+const products = [
+  { id: 1, title: "Sample Product 1", price: 25 },
+  { id: 2, title: "Sample Product 2", price: 35 },
+  { id: 3, title: "Sample Product 3", price: 39 }
+];
 ---
 
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <header>
+      <div class="nav-bar">
+        <h1>{pageTitle}</h1>
+        <nav>
+          <a href="/login">Login</a>
+          <a href="/register">Register</a>
+          <div class="cart-container">
+            <div class="cart-icon">
+              🛒 <span id="cart-count">0</span>
+            </div>
+			
+          </div>
+        </nav>
+      </div>
+    </header>
+	
+    <main>
+      <div class="container">
+        {products.map(product => (
+          <ProductCard id={product.id} title={product.title} price={product.price} />
+        ))}
+        <ProductInfo info={productInfo} />
+	            <button id="clear-cart">Clear Cart</button>
+      </div>
+    </main>
+    <footer>
+
+    </footer>
+      <p>© 2024 Your Website</p>
+  </body>
 </html>
+
+<style>
+  .nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .nav-bar h1 {
+    margin: 0;
+  }
+  
+  .nav-bar nav {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-bar nav a {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .nav-bar nav a:hover {
+    text-decoration: underline;
+  }
+  
+  .cart-container {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+  }
+  
+  .cart-icon {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  
+  #clear-cart {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .product-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .product-info {
+    padding: 1rem;
+    background-color: #f9f9f9;
+    margin-bottom: 1rem;
+  }
+  
+  .cart-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
+
+<script>
+  let cartCount = 0;
+  const cartCountElement = document.getElementById('cart-count');
+  const clearCartButton = document.getElementById('clear-cart');
+
+  function updateCartCount(change) {
+    cartCount += change;
+    cartCountElement.textContent = cartCount;
+  }
+
+  function clearCart() {
+    cartCount = 0;
+    cartCountElement.textContent = cartCount;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    addToCartButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        updateCartCount(1);
+      });
+    });
+
+    clearCartButton.addEventListener('click', clearCart);
+  });
+</script>

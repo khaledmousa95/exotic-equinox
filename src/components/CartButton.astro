@@ -1,0 +1,22 @@
+---
+const { product, action, onCartAction } = Astro.props;
+const buttonText = action === 'add' ? 'Add to Cart' : 'Remove from Cart';
+---
+
+<button onClick={() => onCartAction(product)}>
+  {buttonText}
+</button>
+
+<style>
+  button {
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  button:hover {
+    background-color: #005bb5;
+  }
+</style>

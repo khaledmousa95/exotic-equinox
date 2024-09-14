@@ -1,0 +1,43 @@
+---
+import { setupSocketConnection } from '../lib/socketClient';
+
+// This function will be called when a new product is created
+const handleProductCreate = (newProduct) => {
+  const productList = document.getElementById('product-list');
+  productList.innerHTML += `<div>${newProduct.title} - $${newProduct.price}</div>`;
+};
+
+// This function will be called when a product is updated
+const handleProductUpdate = (updatedProduct) => {
+  const productElement = document.getElementById(`product-${updatedProduct.id}`);
+  if (productElement) {
+    productElement.innerHTML = `${updatedProduct.title} - $${updatedProduct.price}`;
+  }
+};
+
+// This function will be called when a product is deleted
+const handleProductDelete = (deletedProduct) => {
+  const productElement = document.getElementById(`product-${deletedProduct.id}`);
+  if (productElement) {
+    productElement.remove();
+  }
+};
+
+// Connect to WebSocket when the page is loaded
+if (typeof window !== 'undefined') {
+  setupSocketConnection(handleProductCreate, handleProductUpdate, handleProductDelete);
+}
+---
+
+<html>
+  <head>
+    <title>Product Catalog</title>
+  </head>
+  <body>
+    <h1>Product Catalog</h1>
+    <div id="product-list">
+      <!-- Dynamically updated product list will go here -->
+    </div>
+  </body>
+</html>
+    

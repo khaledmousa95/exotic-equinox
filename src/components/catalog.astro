@@ -1,0 +1,56 @@
+---
+import ProductCard from '../components/ProductCard.astro';
+import ProductInfo from '../components/ProductInfo.astro';
+import { useState } from 'react';
+
+// Sample product data
+const products = [
+  { id: 1, title: 'Product 1', price: 29.99, image: '/images/product1.jpg', description: 'Description of product 1' },
+  { id: 2, title: 'Product 2', price: 39.99, image: '/images/product2.jpg', description: 'Description of product 2' },
+  { id: 3, title: 'Product 3', price: 49.99, image: '/images/product3.jpg', description: 'Description of product 3' }
+];
+
+const [cart, setCart] = useState([]);
+const [selectedProduct, setSelectedProduct] = useState(null);
+
+const addToCart = (product) => {
+  setCart([...cart, product]);
+};
+
+const removeFromCart = (product) => {
+  setCart(cart.filter(item => item.id !== product.id));
+};
+
+const showProductInfo = (product) => {
+  setSelectedProduct(product);
+};
+
+const closeProductInfo = () => {
+  setSelectedProduct(null);
+};
+---
+
+<h1>Product Catalog</h1>
+
+<div class="product-grid">
+  {products.map(product => (
+    <ProductCard
+      key={product.id}
+      product={product}
+      onAddToCart={addToCart}
+      onShowInfo={showProductInfo}
+    />
+  ))}
+</div>
+
+{selectedProduct && (
+  <ProductInfo product={selectedProduct} onClose={closeProductInfo} />
+)}
+
+<style>
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+</style>

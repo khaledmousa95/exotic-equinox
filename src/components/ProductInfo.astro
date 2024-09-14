@@ -1,0 +1,39 @@
+---
+const { product, onClose } = Astro.props;
+---
+
+{product && (
+  <div class="product-info">
+    <div class="modal">
+      <button onClick={onClose}>Close</button>
+      <h2>{product.title}</h2>
+      <img src={product.image} alt={product.title} />
+      <p>{product.description}</p>
+      <p>Price: {product.price} AED</p>
+    </div>
+  </div>
+)}
+
+<style>
+  .product-info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 80%;
+  }
+  button {
+    cursor: pointer;
+  }
+</style>
